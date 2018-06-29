@@ -1,0 +1,45 @@
+<html>
+	<head>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	</head>
+  
+	<body>
+<div id="app">
+  {{ message }}
+  <template>
+  <p ref="dom-element">{{counter}}</p>
+</template>
+</div>		
+
+	</body>
+</html>
+<script type="text/javascript">
+	var app = new Vue({
+    el: '#app',
+    data: {
+      message: 'Hello Vue!',
+      counter: 0
+    },
+    created() {
+    	setInterval(() => {
+        this.counter++
+      }, 1000)
+    },
+    beforeCreate() {
+      console.log('Before create!!!')
+    },
+    beforeMount() {
+      this.message = "dddd"
+      console.log('Before mount!!!')
+    },
+    beforeUpdate() {
+      // this.message = "Before update"
+      console.log('Before update!!!')
+    },
+    updated() {
+      console.log(+this.$refs['dom-element'].textContent === this.counter)
+    }
+  })
+</script>
+
+
