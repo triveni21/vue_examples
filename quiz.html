@@ -1,0 +1,105 @@
+<html>
+	<head>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	</head>
+	<body>
+    <div id="app">
+      <question v-for="question_no in [1,2,3,4,5]" v-bind:question_no='question_no'></question>
+    </div>		
+	</body>
+</html>
+<script type="text/javascript">
+  // Vue.config.devtools = true
+  Vue.component('question', {
+    data: function() {
+      return {
+        num1: 0,
+        num2: 0,
+        options: [],
+      }
+    },
+    props: ['question_no'],
+    
+    template: `<div class='heading'> 
+                  <h2 class='title'>Question {{ question_no }}</h2> 
+                  <p class='desc'> {{num1}} + {{num2}} = ? </p> 
+                  <h2 class='title'>Options</h2> 
+                  <button v-for="option in options" :ref="option" class='blue' v-on:click='validateAns'> 
+                    {{ option }}
+                  </button>
+                </div>`,
+
+    methods: {
+      randomNumber: function (limit) {
+        return Math.floor(Math.random() * limit) + 1
+      },
+      validateAns: function(event) {
+        console.log(event.target.innerText)
+        var ans = this.num1 + this.num2
+        console.log(event.target.innerText == ans)
+        if(event.target.innerText == ans){
+          event.target.setAttribute('class', 'green')
+        }
+      }
+    }, 
+
+    mounted: function() {
+        this.num1 = this.randomNumber(10)
+        this.num2 = this.randomNumber(10)
+        this.options.push(this.randomNumber(100))
+        this.options.push(this.randomNumber(100))
+        this.options.push(this.randomNumber(100))
+        this.options.push(this.num1 + this.num2)
+        this.options = this.options.sort( function() { 
+          return Math.random() - 0.4
+        })
+      }
+  });
+
+
+var app = new Vue({
+  el: '#app',
+  data: {
+
+  },
+  methods: {
+  }
+})
+  Vue.config.devtools = true
+</script>
+
+<style type="text/css">
+  .heading {
+    text-align: center;
+    margin-left: 33%;
+  }
+  
+  .title {
+    border: solid 1px;
+    width: 40%;
+    vertical-align: middle;
+  }
+
+  .desc {
+    width: 40%;
+    vertical-align: middle; 
+  }
+
+  .blue {
+    width: 10%;
+    vertical-align: middle; 
+    margin-right: 35%;
+    margin-top: 2%;
+    background-color: blue;
+  }
+
+  .green {
+    width: 10%;
+    vertical-align: middle; 
+    margin-right: 35%;
+    margin-top: 2%;
+    background-color: green;
+  }
+</style>
+
+
